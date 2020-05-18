@@ -1,6 +1,7 @@
 import React from 'react';
 import './ipod.css';
 import ZingTouch from 'zingtouch';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 class Ipod extends React.Component{
 
@@ -42,7 +43,7 @@ class Ipod extends React.Component{
     }
 
     mainMenu = ()=>{
-        let allScreens = document.getElementById("show");
+        let allScreens = document.getElementsByClassName("show");
         let currentScreen = "";
 
         for(currentScreen of allScreens){
@@ -54,12 +55,69 @@ class Ipod extends React.Component{
         currentScreen.style.height="0";
         currentScreen.style.width="0";
 
+        let home = document.getElementById('display');
+        home.style.visibilty = "visible";
+        home.style.height="50%";
+        home.style.width="95%";
+        home.style.borderTopLeftRadius="5%";
+        home.style.borderTopRightRadius="5%";
+        home.style.marginTop="1%"
     }
+
+    changeScreen = (e)=>{
+        let screen = document.getElementById('display');
+        screen.style.visibility = "hidden";
+        screen.style.width = 0;
+        screen.style.height = 0;
+
+        let current = document.getElementById(e.innerHTML+'-display');
+        let img = document.createElement('img');
+        if(e.innerHTML ==="Music"){
+            img.src = "";
+        }
+        else if(e.innerHTML ==="Games"){
+            img.src = "";
+        }
+        else if(e.innerHTML ==="Settings"){
+            img.src = "";
+        }
+        else{
+            img.src = ""
+        }
+        img.id="title";
+        img.style.height="50%";
+        img.style.width="50%";
+        img.style.marginTop="20%"
+        img.style.marginLeft="24%"
+        current.appendChild(img);
+
+        current.style.alignmentBaseline = "center"
+        current.style.visibility = "visible"
+        current.style.height = "50%"
+        current.style.width = "95%"
+        current.style.borderTopLeftRadius = "10%"
+        current.style.borderTopRightRadius = "10%"
+        current.style.margin = "auto"
+    } 
+
+    optionClick = ()=>{
+        let total = document.getElementsByClassName("display-items");
+        let t;
+        for(t of total){
+            if(t.style.backgroundColor =="blue"){
+                break;
+            }
+        }
+
+        this.changeScreen(t);
+    }
+
+
     render(){
         const items = this.state.display;
         return(
             <div className = "main">
-                <div className="active-screen">
+                <div className="active-screen" id = "display">
                     {
                         items.map((item,index)=>(
                             <div className = "display-items" id = {item} key = {index}>
@@ -68,20 +126,31 @@ class Ipod extends React.Component{
                         ))
                     }
                 </div>
-                <div id = "coverflow-display" className = "show">
+                <div id = "Coverflow-display" className = "show">
 
                 </div>
-                <div id = "coverflow-display" className = "show">
+                <div id = "Settings-display" className = "show">
 
                 </div>
-                <div id = "coverflow-display" className = "show">
+                <div id = "Games-display" className = "show">
 
                 </div>
-                <div id = "coverflow-display" className = "show">
+                <div id = "Music-display" className = "show">
 
                 </div>
-                <div className="menu">
+                <div id ="menu" className = "controls" onClick= {this.handleScroll}>
+                <button id="menu-button" className="buttons" onClick={this.homeScreen}>Menu</button>
+                    <i className="fa fa-forward"></i>
+                    {/* backward icon */}
+                    <i className="fa fa-backward"></i>
+                    {/* play icon */}
+                    <i className="fa fa-play"></i>
+                    {/* pause icon */}
+                    <i className="fa fa-pause"></i>
 
+                    <div className="Outer">
+                        <button className= "Inner" onClick = {this.optionClick}></button>
+                    </div>
                 </div>
             </div>
         ); 
